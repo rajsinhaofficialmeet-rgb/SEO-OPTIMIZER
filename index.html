@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mentors Eduserv - AI Content Optimizer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+          "react/": "https://aistudiocdn.com/react@^19.1.1/",
+          "react": "https://aistudiocdn.com/react@^19.1.1",
+          "@google/genai": "https://aistudiocdn.com/@google/genai@^1.16.0",
+          "html2canvas": "https://aistudiocdn.com/html2canvas@^1.4.1",
+          "jspdf": "https://aistudiocdn.com/jspdf@^2.5.1"
+        }
+      }
+    </script>
+    <script>
+      // Set theme on initial load to prevent FOUC
+      if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+      }
+    </script>
+    <style>
+      @keyframes float {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-1000px) rotate(720deg);
+          opacity: 0;
+        }
+      }
+      @keyframes bubble-float {
+        0% {
+          transform: translateY(0) translateX(0);
+          opacity: 0.7;
+        }
+        50% {
+          transform: translateY(-500px) translateX(20px);
+          opacity: 0.4;
+        }
+        100% {
+          transform: translateY(-1000px) translateX(-20px);
+          opacity: 0;
+        }
+      }
+      /* --- Added for subtle fade-in animations --- */
+      @keyframes fadeInSubtle {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fade-in-subtle {
+        animation: fadeInSubtle 0.5s ease-out forwards;
+      }
+      
+      /* --- Make body transparent for particle background to show through --- */
+      body {
+        background-color: transparent;
+      }
+
+      /* --- 3D CUBE STYLES --- */
+      @keyframes rotate-cube {
+        0% { transform: rotateX(-30deg) rotateY(0deg); }
+        100% { transform: rotateX(-30deg) rotateY(360deg); }
+      }
+      .cube-container {
+        perspective: 1000px;
+      }
+      .cube {
+        width: 160px;
+        height: 160px;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: rotate-cube 20s linear infinite;
+      }
+      .face {
+        position: absolute;
+        width: 160px;
+        height: 160px;
+        border: 1px solid theme('colors.amber.400' / 0.5);
+        background: theme('colors.amber.400' / 0.1);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        color: white;
+        font-size: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .front  { transform: rotateY(  0deg) translateZ(80px); }
+      .back   { transform: rotateY(180deg) translateZ(80px); }
+      .right  { transform: rotateY( 90deg) translateZ(80px); }
+      .left   { transform: rotateY(-90deg) translateZ(80px); }
+      .top    { transform: rotateX( 90deg) translateZ(80px); }
+      .bottom { transform: rotateX(-90deg) translateZ(80px); }
+
+      /* --- 3D Feature Card Styles --- */
+      .feature-card-3d {
+        perspective: 1000px;
+        position: relative;
+        overflow: hidden;
+      }
+      .feature-card-inner {
+        transform: rotateX(var(--rotate-x, 0)) rotateY(var(--rotate-y, 0));
+        transition: transform 0.1s linear;
+        position: relative;
+        z-index: 1;
+        will-change: transform;
+      }
+      .feature-card-glow {
+        position: absolute;
+        left: var(--glow-x, -100px);
+        top: var(--glow-y, -100px);
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, theme('colors.amber.400' / 0.2) 0%, transparent 70%);
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 0;
+        opacity: var(--glow-opacity, 0);
+        transition: opacity 0.2s ease-in-out;
+      }
+      .feature-card-3d:hover .feature-card-glow {
+        --glow-opacity: 1;
+      }
+      
+      /* --- Added for glittering text animation --- */
+      @keyframes gradient-pan {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      /* --- Added for 3D Brand Name Effect --- */
+      .text-3d-gradient {
+          transition: filter 0.3s ease-in-out, transform 0.3s ease-in-out;
+          filter: 
+              drop-shadow(1px 1px 0px rgba(0,0,0,0.4))
+              drop-shadow(2px 2px 0px rgba(0,0,0,0.3))
+              drop-shadow(3px 3px 0px rgba(0,0,0,0.2));
+      }
+      .text-3d-gradient:hover {
+          transform: scale(1.02); /* Slight zoom for interactivity */
+          filter: 
+              drop-shadow(1px 1px 0px rgba(0,0,0,0.3))
+              drop-shadow(2px 2px 0px rgba(0,0,0,0.2))
+              drop-shadow(0 0 15px theme('colors.amber.400')); /* Glow effect */
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

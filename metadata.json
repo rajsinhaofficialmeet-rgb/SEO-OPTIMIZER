@@ -1,0 +1,7 @@
+{
+  "name": "AI SEO Optimizer",
+  "description": "An AI-powered application to generate relevant SEO keywords, YouTube tags, and social media hashtags. Simply describe your content, and the app will provide optimized keywords and hashtags to improve visibility and engagement.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
